@@ -22,6 +22,13 @@ def create_app():
         return User.query.get(int(user_id))
 
     # ------ Auth routes ------
+    @app.route('/')
+    def index():
+        return redirect(url_for('home'))
+    @app.route('/home')
+    def home():
+        return render_template('home.html')
+
     @app.route('/register', methods=['GET', 'POST'])
     def register():
         if current_user.is_authenticated:
@@ -49,28 +56,41 @@ def create_app():
     def login():
         if current_user.is_authenticated:
             return redirect(url_for('dashboard'))
+
         form = LoginForm()
+
+        # Preserve the 'next' parameter (either from querystring or from POST)
+        next_page = request.args.get('next') or request.form.get('next')
+
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data.lower()).first()
             if user and check_password_hash(user.password, form.password.data):
                 login_user(user)
                 flash('Logged in successfully!', 'success')
+
+                # Redirect to next if it's present and safe
+                if next_page and is_safe_url(next_page):
+                    return redirect(next_page)
+
+                # Otherwise redirect based on role
                 if user.is_admin:
                     return redirect(url_for('admin_dashboard'))
-                else:
-                    return redirect(url_for('dashboard'))
+                return redirect(url_for('dashboard'))
+
             flash('Invalid credentials', 'danger')
-        return render_template('login.html', form=form)
+
+        return render_template('login.html', form=form, next=next_page)
 
     @app.route('/logout')
     @login_required
     def logout():
         logout_user()
         flash('Logged out', 'info')
-        return redirect(url_for('login'))
+        return redirect(url_for('home'))
 
     # ------ Dashboard and leave routes ------
-    @app.route('/')
+    # change this block: route now at '/dashboard' (not '/')
+    @app.route('/dashboard')
     @login_required
     def dashboard():
         if current_user.is_admin:
