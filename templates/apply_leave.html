@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h3>Apply for Leave</h3>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">{{ form.start_date.label }}{{ form.start_date(class_='form-control') }}</div>
+    <div class="mb-3">{{ form.end_date.label }}{{ form.end_date(class_='form-control') }}</div>
+    <div class="mb-3">{{ form.reason.label }}{{ form.reason(class_='form-control') }}</div>
+    <button class="btn btn-primary">Apply</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h3>My Leaves</h3>
+  <a href="{{ url_for('apply_leave') }}" class="btn btn-success mb-3">Apply</a>
+  <table class="table">
+    <thead><tr><th>From</th><th>To</th><th>Reason</th><th>Status</th><th>Applied on</th></tr></thead>
+    <tbody>
+      {% for l in leaves %}
+      <tr>
+        <td>{{ l.start_date }}</td>
+        <td>{{ l.end_date }}</td>
+        <td>{{ l.reason }}</td>
+        <td>{{ l.status }}</td>
+        <td>{{ l.created_at.strftime('%Y-%m-%d') }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5">No leaves yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
