@@ -26,7 +26,7 @@ This system simplifies leave tracking, improves transparency, and provides a cle
 
 | Layer | Technology |
 |--------|-------------|
-| **Frontend** | HTML5, Bootstrap 5, CSS |
+| **Frontend** | HTML, CSS |
 | **Backend** | Flask (Python) |
 | **Database** | SQLite |
 | **ORM** | SQLAlchemy |
@@ -42,3 +42,4 @@ This system simplifies leave tracking, improves transparency, and provides a cle
    ```bash
    git clone https://github.com/APPANAVAISHNAVI/Leave_Management_System.git
    cd Leave_Management_System
+
